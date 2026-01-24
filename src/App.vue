@@ -1,5 +1,9 @@
 <script setup>
   import Heading from './components/Heading.vue';
+  import ChoiceEntry from './components/ChoiceEntry.vue';
+  import ChoiceContainer from './components/ChoiceContainer.vue';
+
+  const choices = ['Pizza', 'Testing', '123']
 </script>
 
 <template>
@@ -11,10 +15,19 @@
   </header>
 
   <main>
+    <ChoiceEntry placeholder="Add a choice..." />
+    <ChoiceContainer :choices="choices" />
   </main>
 </template>
 
 <style scoped>
+
+  header .wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 20% 0 10% 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
 
   main {
     flex: 1;
@@ -23,12 +36,4 @@
     overflow-y: auto;
   }
 
-@media (max-width: 500px) {
-  header .wrapper {
-    display: flex;
-    flex-direction: column;
-    padding: 20% 0 10% 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  }
-}
 </style>
