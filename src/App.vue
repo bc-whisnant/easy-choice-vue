@@ -1,47 +1,34 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+  import Heading from './components/Heading.vue';
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <Heading text="Easy Choice" subtext="Can't decide? Let us choose!" />
     </div>
   </header>
 
   <main>
-    <TheWelcome />
   </main>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+  main {
+    flex: 1;
+    background: linear-gradient(180deg, #f3f0ff 0%, #ffffff 100%);
+    padding: 24px;
+    overflow-y: auto;
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
+@media (max-width: 500px) {
   header .wrapper {
     display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 20% 0 10% 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   }
 }
 </style>
