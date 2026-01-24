@@ -18,7 +18,9 @@
 
 <style scoped>
   .choices-list {
-      margin-bottom: 24px;
+    max-height: 40vh;
+    margin-bottom: 24px;
+    overflow-y: scroll;
   }
 
 </style>  
