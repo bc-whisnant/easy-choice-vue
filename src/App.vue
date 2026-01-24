@@ -2,8 +2,11 @@
   import Heading from './components/Heading.vue';
   import ChoiceEntry from './components/ChoiceEntry.vue';
   import ChoiceContainer from './components/ChoiceContainer.vue';
-
+  import Button from './components/Button.vue';
+  import Result from './components/Result.vue';
   const choices = ['Pizza', 'Testing', '123']
+  const buttonIcon = '🎲'
+  const easyChoice = 'Pizza'
 </script>
 
 <template>
@@ -17,6 +20,8 @@
   <main>
     <ChoiceEntry placeholder="Add a choice..." />
     <ChoiceContainer :choices="choices" />
+    <Button :buttonIcon="buttonIcon" buttonText="Pick A Choice"/>
+    <Result :result="easyChoice" />
   </main>
 </template>
 
