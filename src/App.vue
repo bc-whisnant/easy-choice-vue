@@ -14,7 +14,9 @@
     choices.value.push(currentChoice.value)
     currentChoice.value = ''
   } 
-  const deleteChoice = () => console.log('deleting choice here')
+  const removeChoice = (index) => {
+    choices.value.splice(index, 1)
+  }
 
   const pickChoice = () => {
     easyChoice.value = choices.value[Math.floor(Math.random() * choices.value.length)]
@@ -32,7 +34,7 @@
 
   <main>
     <ChoiceEntry @addChoice="addChoice" v-model="currentChoice" placeholder="Add a choice..." />
-    <ChoiceContainer :choices="choices" />
+    <ChoiceContainer @removeChoice="removeChoice" :choices="choices" />
     <Button @pickChoice="pickChoice" :buttonIcon="buttonIcon" buttonText="Pick A Choice"/>
     <Result :result="easyChoice" />
   </main>

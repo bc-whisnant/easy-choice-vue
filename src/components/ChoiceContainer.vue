@@ -7,12 +7,18 @@
       required: true,
     }
   })
+
+  const emit = defineEmits(['removeChoice'])
+
+  const removeChoice = (index) => {
+    emit('removeChoice', index)
+  } 
 </script>
 
 
 <template>
   <div class="choices-list">
-    <Choice v-for="(choice, index) in choices" :key="index" :choice="choice" />
+    <Choice v-for="(choice, index) in choices" :key="index" :choice="choice" @removeChoice="removeChoice(index)" />
   </div>
 </template>
 

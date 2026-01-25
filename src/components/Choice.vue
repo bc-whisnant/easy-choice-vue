@@ -5,12 +5,18 @@
       required: true,
     }
   })
+
+  const emit = defineEmits(['pickChoice'])
+
+  const removeChoice = () => {
+    emit('removeChoice')
+  }
 </script>
 
 <template>
   <div class="choice-item">
     <span class="choice-text">{{ choice }}</span>
-    <span class="remove-button">×</span>
+    <span @click="removeChoice" class="remove-button">×</span>
   </div>
 
 </template>
