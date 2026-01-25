@@ -1,12 +1,25 @@
 <script setup>
+  import { ref } from 'vue';
   import Heading from './components/Heading.vue';
   import ChoiceEntry from './components/ChoiceEntry.vue';
   import ChoiceContainer from './components/ChoiceContainer.vue';
   import Button from './components/Button.vue';
   import Result from './components/Result.vue';
-  const choices = ['Pizza', 'Testing', '123']
+  const choices = ref([]) // ['Pizza', 'Testing', '123']
   const buttonIcon = '🎲'
-  const easyChoice = 'Pizza'
+  const currentChoice = ref('')
+
+  const easyChoice = ref('')
+
+  const addChoice = () => {
+    choices.value.push(currentChoice.value)
+    currentChoice.value = ''
+  } 
+  const deleteChoice = () => console.log('deleting choice here')
+
+  const pickChoice = () => console.log('picking choice here')
+
+  const result = !easyChoice.value ? 'No Choice Has Been Picked' : easyChoice.value
 </script>
 
 <template>
@@ -18,10 +31,10 @@
   </header>
 
   <main>
-    <ChoiceEntry placeholder="Add a choice..." />
+    <ChoiceEntry @addChoice="addChoice" v-model="currentChoice" placeholder="Add a choice..." />
     <ChoiceContainer :choices="choices" />
-    <Button :buttonIcon="buttonIcon" buttonText="Pick A Choice"/>
-    <Result :result="easyChoice" />
+    <Button @pickChoice="pickChoice" :buttonIcon="buttonIcon" buttonText="Pick A Choice"/>
+    <Result :result="result" />
   </main>
 </template>
 

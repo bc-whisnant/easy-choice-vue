@@ -1,19 +1,32 @@
 <script setup>
+import { ref } from 'vue'
+
+
+
 defineProps({
   placeholder: {
     type: String,
     required: true,
   }
 })
+
+const emit = defineEmits(['addChoice'])
+const currentChoice = defineModel()
+
+
+const addChoice = () => {
+  emit('addChoice')
+} 
+
 </script>
 
 <template>
   <div class="choice-input">
    <div class="input-group">
       <div class="input-field">
-        <input type="text" :placeholder="placeholder" />
+        <input v-model="currentChoice" type="text" :placeholder="placeholder" />
       </div>
-      <button class="add-button">+</button>
+      <button @click="addChoice" class="add-button">+</button>
     </div>
   </div>
 </template>

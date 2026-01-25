@@ -9,13 +9,18 @@
       required: true
     }
   })
+  const emit = defineEmits(['pickChoice'])
+
+  const pickChoice = () => {
+    emit('pickChoice')
+  } 
 
 </script>
 
 
 <template>  
 
-  <button class="choice-button">
+  <button @click="pickChoice" class="choice-button">
     <span>{{ buttonIcon }}</span>
     {{ buttonText }}
   </button>
