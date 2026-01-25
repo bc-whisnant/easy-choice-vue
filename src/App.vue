@@ -8,7 +8,7 @@
   const choices = ref([]) // ['Pizza', 'Testing', '123']
   const buttonIcon = '🎲'
   const currentChoice = ref('')
-  const easyChoice = ref('...No Choice Selected')
+  const easyChoice = ref('')
 
   const addChoice = () => {
     choices.value.push(currentChoice.value)
@@ -35,8 +35,10 @@
   <main>
     <ChoiceEntry @addChoice="addChoice" v-model="currentChoice" placeholder="Add a choice..." />
     <ChoiceContainer @removeChoice="removeChoice" :choices="choices" />
-    <Button @pickChoice="pickChoice" :buttonIcon="buttonIcon" buttonText="Pick A Choice"/>
-    <Result :result="easyChoice" />
+    <div class="actions">
+      <Button @pickChoice="pickChoice" :buttonIcon="buttonIcon" buttonText="Pick A Choice"/>
+      <Result v-if="easyChoice && choices.length" :result="easyChoice" />
+    </div>
   </main>
 </template>
 
@@ -54,6 +56,13 @@
     background: linear-gradient(180deg, #f3f0ff 0%, #ffffff 100%);
     padding: 24px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    height: 75vh;
+  }
+
+  .actions {
+    margin-top: auto;
   }
 
 </style>
