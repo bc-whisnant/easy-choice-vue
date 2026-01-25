@@ -8,8 +8,7 @@
   const choices = ref([]) // ['Pizza', 'Testing', '123']
   const buttonIcon = '🎲'
   const currentChoice = ref('')
-
-  const easyChoice = ref('')
+  const easyChoice = ref('...No Choice Selected')
 
   const addChoice = () => {
     choices.value.push(currentChoice.value)
@@ -17,9 +16,10 @@
   } 
   const deleteChoice = () => console.log('deleting choice here')
 
-  const pickChoice = () => console.log('picking choice here')
+  const pickChoice = () => {
+    easyChoice.value = choices.value[Math.floor(Math.random() * choices.value.length)]
+  } 
 
-  const result = !easyChoice.value ? 'No Choice Has Been Picked' : easyChoice.value
 </script>
 
 <template>
@@ -34,7 +34,7 @@
     <ChoiceEntry @addChoice="addChoice" v-model="currentChoice" placeholder="Add a choice..." />
     <ChoiceContainer :choices="choices" />
     <Button @pickChoice="pickChoice" :buttonIcon="buttonIcon" buttonText="Pick A Choice"/>
-    <Result :result="result" />
+    <Result :result="easyChoice" />
   </main>
 </template>
 
