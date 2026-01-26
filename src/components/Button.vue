@@ -7,6 +7,10 @@
     buttonText: {
       type: String,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: false
     }
   })
   const emit = defineEmits(['pickChoice'])
@@ -19,12 +23,10 @@
 
 
 <template>  
-
-  <button @click="pickChoice" class="choice-button">
+  <button @click="pickChoice" :disabled="disabled" class="choice-button" :class="disabled && 'disabled'">
     <span>{{ buttonIcon }}</span>
     {{ buttonText }}
   </button>
-
 </template>
 
 

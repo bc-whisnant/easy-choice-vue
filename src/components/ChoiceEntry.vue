@@ -77,13 +77,4 @@ const addChoice = () => {
   align-items: center;
   justify-content: center;
 }
-
-.disabled {
- background: linear-gradient(180deg, #e6e6e6 0%, #cccccc 100%) !important;
-  color: #888888;
-  border: 1px solid #bbbbbb;
-  cursor: not-allowed;
-  pointer-events: none;
-  opacity: 0.7;
-}
 </style>

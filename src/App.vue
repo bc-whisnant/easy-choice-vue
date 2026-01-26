@@ -9,13 +9,19 @@
   const buttonIcon = '🎲'
   const currentChoice = ref('')
   const easyChoice = ref('')
+  const allChoicesRemoved = ref(false)
 
   const addChoice = () => {
     choices.value.push(currentChoice.value)
     currentChoice.value = ''
+    allChoicesRemoved.value = false
   } 
   const removeChoice = (index) => {
     choices.value.splice(index, 1)
+    if (!choices.value.length) {
+      allChoicesRemoved.value = true
+      easyChoice.value = ''
+    }
   }
 
   const pickChoice = () => {
@@ -36,7 +42,7 @@
     <ChoiceEntry @addChoice="addChoice" v-model="currentChoice" :disabled="!currentChoice" placeholder="Add a choice..." />
     <ChoiceContainer @removeChoice="removeChoice" :choices="choices" />
     <div class="actions">
-      <Button @pickChoice="pickChoice" :buttonIcon="buttonIcon" buttonText="Pick A Choice"/>
+      <Button @pickChoice="pickChoice" :buttonIcon="buttonIcon" :disabled="!choices.length" buttonText="Pick A Choice"/>
       <Result v-if="easyChoice && choices.length" :result="easyChoice" />
     </div>
   </main>
