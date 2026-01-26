@@ -33,7 +33,7 @@
   </header>
 
   <main>
-    <ChoiceEntry @addChoice="addChoice" v-model="currentChoice" placeholder="Add a choice..." />
+    <ChoiceEntry @addChoice="addChoice" v-model="currentChoice" :disabled="!currentChoice" placeholder="Add a choice..." />
     <ChoiceContainer @removeChoice="removeChoice" :choices="choices" />
     <div class="actions">
       <Button @pickChoice="pickChoice" :buttonIcon="buttonIcon" buttonText="Pick A Choice"/>

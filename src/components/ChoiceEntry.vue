@@ -1,12 +1,14 @@
 <script setup>
 import { ref } from 'vue'
 
-
-
 defineProps({
   placeholder: {
     type: String,
     required: true,
+  },
+  disabled: {
+    type: Boolean,
+    required: false
   }
 })
 
@@ -26,7 +28,7 @@ const addChoice = () => {
       <div class="input-field">
         <input v-model="currentChoice" type="text" :placeholder="placeholder" />
       </div>
-      <button @click="addChoice" class="add-button">+</button>
+      <button @click="addChoice" :disabled="disabled" class="add-button" :class="disabled && 'disabled'">+</button>
     </div>
   </div>
 </template>
@@ -74,5 +76,14 @@ const addChoice = () => {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.disabled {
+ background: linear-gradient(180deg, #e6e6e6 0%, #cccccc 100%) !important;
+  color: #888888;
+  border: 1px solid #bbbbbb;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.7;
 }
 </style>
