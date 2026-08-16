@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Heading from './components/Heading.vue';
 import ChoiceEntry from './components/ChoiceEntry.vue';
 import ChoiceContainer from './components/ChoiceContainer.vue';
@@ -41,6 +41,10 @@ const increaseNumberOfAttempts = () => {
   numberOfAttempts.value++
 }
 
+const disableAfterChoiceIsSelected = computed(() => {
+  return currentAttempt.value > 0 && currentAttempt.value === numberOfAttempts.value
+})
+
 
 </script>
 
@@ -57,8 +61,8 @@ const increaseNumberOfAttempts = () => {
       placeholder="Add a choice..." />
     <ChoiceContainer @removeChoice="removeChoice" :choices="choices" />
     <div class="actions">
-      <NumberOfAttempts v-if="choices.length" :label="numberOfAttemptsLabel" :disabled="currentAttempt > 0" :numberOfAttempts="numberOfAttempts" @decreaseNumberOfAttempts="decreaseNumberOfAttempts" @increaseNumberOfAttempts="increaseNumberOfAttempts" />
-      <Button @pickChoice="pickChoice" :buttonIcon="buttonIcon" :disabled="!choices.length || numberOfAttempts === 0"
+      <NumberOfAttempts v-if="choices.length" :label="numberOfAttemptsLabel" :disabled="disableAfterChoiceIsSelected" :numberOfAttempts="numberOfAttempts" @decreaseNumberOfAttempts="decreaseNumberOfAttempts" @increaseNumberOfAttempts="increaseNumberOfAttempts" />
+      <Button @pickChoice="pickChoice" :buttonIcon="buttonIcon" :disabled="!choices.length || numberOfAttempts === 0 || disableAfterChoiceIsSelected"
         buttonText="Pick A Choice" />
       <p class="attempts-progress" v-if="choices.length && currentAttempt > 0">Attempt {{ currentAttempt }} of {{ numberOfAttempts }}</p>
       <Result v-if="easyChoice && choices.length" :result="easyChoice" />

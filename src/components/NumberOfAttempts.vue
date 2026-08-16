@@ -31,9 +31,9 @@
   <div class="attempts-section">
     <span class="attempts-label">{{ label }}</span>
     <div class="attempts-stepper">
-      <button class="stepper-btn" :disabled="disabled" @click="decreaseNumberOfAttempts">−</button>
+      <button class="stepper-btn" :class="disabled && 'disabled'" :disabled="disabled" @click="decreaseNumberOfAttempts">−</button>
       <span class="attempts-value">{{  numberOfAttempts }}</span>
-      <button class="stepper-btn" :disabled="disabled" @click="increaseNumberOfAttempts">+</button>
+      <button class="stepper-btn" :class="disabled && 'disabled'" :disabled="disabled" @click="increaseNumberOfAttempts">+</button>
     </div>
   </div>
 
@@ -77,6 +77,10 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 3px 8px rgba(91, 104, 230, 0.3);
+}
+
+.disabled {
+  background-color: lightgray;
 }
 
 .attempts-value {
