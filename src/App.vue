@@ -36,8 +36,7 @@ const pickChoice = () => {
 }
 
 const choiceReset = () => {
-  console.log('resetting choice here')
-  choices.value = [] // ['Pizza', 'Testing', '123']
+  choices.value = []
   currentChoice.value = ''
   easyChoice.value = ''
   allChoicesRemoved.value = false
