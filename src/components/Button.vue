@@ -49,4 +49,8 @@
     margin-bottom: 24px;
   }
 
+  .disabled {
+    background-color: lightgray;
+  }
+
 </style>  
