@@ -22,6 +22,8 @@ const addChoice = () => {
 }
 const removeChoice = (index) => {
   choices.value.splice(index, 1)
+  currentAttempt.value = 0
+  numberOfAttempts.value = 0
   if (!choices.value.length) {
     allChoicesRemoved.value = true
     easyChoice.value = ''
@@ -31,6 +33,16 @@ const removeChoice = (index) => {
 const pickChoice = () => {
   easyChoice.value = choices.value[Math.floor(Math.random() * choices.value.length)]
   currentAttempt.value++
+}
+
+const choiceReset = () => {
+  console.log('resetting choice here')
+  choices.value = [] // ['Pizza', 'Testing', '123']
+  currentChoice.value = ''
+  easyChoice.value = ''
+  allChoicesRemoved.value = false
+  numberOfAttempts.value = 0
+  currentAttempt.value = 0
 }
 
 const decreaseNumberOfAttempts = () => {
@@ -45,12 +57,19 @@ const disableAfterChoiceIsSelected = computed(() => {
   return currentAttempt.value > 0 && currentAttempt.value === numberOfAttempts.value
 })
 
+const resultLabel = computed(() => {
+  return disableAfterChoiceIsSelected.value ? 'Final choice:' : 'Current result:'
+})
+
+const buttonLabel = computed(() => {
+  return !disableAfterChoiceIsSelected.value ? 'Pick A Choice' : 'Reset'
+})
+
 
 </script>
 
 <template>
   <header>
-
     <div class="wrapper">
       <Heading text="Easy Choice" subtext="Can't decide? Let us choose!" />
     </div>
@@ -62,10 +81,10 @@ const disableAfterChoiceIsSelected = computed(() => {
     <ChoiceContainer @removeChoice="removeChoice" :choices="choices" />
     <div class="actions">
       <NumberOfAttempts v-if="choices.length" :label="numberOfAttemptsLabel" :disabled="disableAfterChoiceIsSelected" :numberOfAttempts="numberOfAttempts" @decreaseNumberOfAttempts="decreaseNumberOfAttempts" @increaseNumberOfAttempts="increaseNumberOfAttempts" />
-      <Button @pickChoice="pickChoice" :buttonIcon="buttonIcon" :disabled="!choices.length || numberOfAttempts === 0 || disableAfterChoiceIsSelected"
-        buttonText="Pick A Choice" />
+      <Button @pickChoice="pickChoice" @choiceReset="choiceReset" :resetState="disableAfterChoiceIsSelected" :buttonIcon="buttonIcon" :disabled="!choices.length || !numberOfAttempts"
+        :buttonText="buttonLabel" />
       <p class="attempts-progress" v-if="choices.length && currentAttempt > 0">Attempt {{ currentAttempt }} of {{ numberOfAttempts }}</p>
-      <Result v-if="easyChoice && choices.length" :result="easyChoice" />
+      <Result v-if="easyChoice && choices.length && disableAfterChoiceIsSelected" :resultLabel="resultLabel" :result="easyChoice" />
     </div>
   </main>
 </template>

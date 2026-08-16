@@ -11,19 +11,27 @@
     disabled: {
       type: Boolean,
       required: false
+    },
+    resetState: {
+      type: Boolean,
+      required: true
     }
   })
-  const emit = defineEmits(['pickChoice'])
+  const emit = defineEmits(['pickChoice', 'choiceReset'])
 
   const pickChoice = () => {
     emit('pickChoice')
   } 
 
+  const choiceReset = () => {
+    emit('choiceReset')
+  }
+
 </script>
 
 
 <template>  
-  <button @click="pickChoice" :disabled="disabled" class="choice-button" :class="disabled && 'disabled'">
+  <button @click="resetState ? choiceReset() : pickChoice()" :disabled="disabled" class="choice-button" :class="disabled && 'disabled'" :resetState="resetState">
     <span>{{ buttonIcon }}</span>
     {{ buttonText }}
   </button>

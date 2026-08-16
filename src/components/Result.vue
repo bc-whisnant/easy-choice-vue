@@ -3,6 +3,10 @@
     result: {
       type: String,
       required: true
+    },
+    resultLabel: {
+      type: String,
+      required: true
     }
   })
 
@@ -11,7 +15,7 @@
 
 <template>
   <div class="result-section">
-    <p class="result-label">Your choice is:</p>
+    <p class="result-label">{{ resultLabel }}</p>
     <div class="result-box">{{ result }}</div>
   </div>
 </template>
