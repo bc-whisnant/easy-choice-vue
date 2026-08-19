@@ -83,7 +83,7 @@ const buttonLabel = computed(() => {
       <Button @pickChoice="pickChoice" @choiceReset="choiceReset" :resetState="disableAfterChoiceIsSelected" :buttonIcon="buttonIcon" :disabled="!choices.length || !numberOfAttempts"
         :buttonText="buttonLabel" />
       <p class="attempts-progress" v-if="choices.length && currentAttempt > 0">Attempt {{ currentAttempt }} of {{ numberOfAttempts }}</p>
-      <Result v-if="easyChoice && choices.length && disableAfterChoiceIsSelected" :resultLabel="resultLabel" :result="easyChoice" />
+      <Result v-if="easyChoice && choices.length" :resultLabel="resultLabel" :result="easyChoice" />
     </div>
   </main>
 </template>
