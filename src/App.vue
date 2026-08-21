@@ -14,14 +14,26 @@ const allChoicesRemoved = ref(false)
 const numberOfAttemptsLabel = 'Number of Attempts'
 const numberOfAttempts = ref(0)
 const currentAttempt = ref(0)
+const choiceCounts = ref({})
+const finalChoiceRevealed = ref(false)
+
+const isDuplicateChoice = computed(() => {
+  const choice = currentChoice.value.trim().toLowerCase()
+  return choices.value.some((existing) => existing.toLowerCase() === choice)
+})
 
 const addChoice = () => {
-  choices.value.push(currentChoice.value)
+  const choice = currentChoice.value.trim()
+  if (choice && !isDuplicateChoice.value) {
+    choices.value.push(choice)
+  }
   currentChoice.value = ''
   allChoicesRemoved.value = false
 }
 const removeChoice = (index) => {
   choices.value.splice(index, 1)
+  choiceCounts.value = {}
+  finalChoiceRevealed.value = false
   currentAttempt.value = 0
   numberOfAttempts.value = 0
   if (!choices.value.length) {
@@ -30,13 +42,34 @@ const removeChoice = (index) => {
   }
 }
 
+const mostFrequentChoice = () => {
+  let winner = choices.value[0]
+  choices.value.forEach((choice) => {
+    if ((choiceCounts.value[choice] || 0) > (choiceCounts.value[winner] || 0)) {
+      winner = choice
+    }
+  })
+  return winner
+}
+
 const pickChoice = () => {
-  easyChoice.value = choices.value[Math.floor(Math.random() * choices.value.length)]
+  const choice = choices.value[Math.floor(Math.random() * choices.value.length)]
+  choiceCounts.value[choice] = (choiceCounts.value[choice] || 0) + 1
   currentAttempt.value++
+  easyChoice.value = choice
+
+  if (currentAttempt.value === numberOfAttempts.value) {
+    setTimeout(() => {
+      easyChoice.value = mostFrequentChoice()
+      finalChoiceRevealed.value = true
+    }, 900)
+  }
 }
 
 const choiceReset = () => {
   choices.value = []
+  choiceCounts.value = {}
+  finalChoiceRevealed.value = false
   currentChoice.value = ''
   easyChoice.value = ''
   allChoicesRemoved.value = false
@@ -52,16 +85,16 @@ const increaseNumberOfAttempts = () => {
   numberOfAttempts.value++
 }
 
-const disableAfterChoiceIsSelected = computed(() => {
+const attemptsExhausted = computed(() => {
   return currentAttempt.value > 0 && currentAttempt.value === numberOfAttempts.value
 })
 
 const resultLabel = computed(() => {
-  return disableAfterChoiceIsSelected.value ? 'Final choice:' : 'Current result:'
+  return finalChoiceRevealed.value ? 'Final choice:' : 'Current result:'
 })
 
 const buttonLabel = computed(() => {
-  return !disableAfterChoiceIsSelected.value ? 'Pick A Choice' : 'Reset'
+  return finalChoiceRevealed.value ? 'Reset' : 'Pick A Choice'
 })
 
 
@@ -75,12 +108,12 @@ const buttonLabel = computed(() => {
   </header>
 
   <main>
-    <ChoiceEntry @addChoice="addChoice" v-model="currentChoice" :disabled="currentChoice === ''"
+    <ChoiceEntry @addChoice="addChoice" v-model="currentChoice" :disabled="currentChoice.trim() === '' || isDuplicateChoice"
       placeholder="Add a choice..." />
     <ChoiceContainer @removeChoice="removeChoice" :choices="choices" />
     <div class="actions">
-      <NumberOfAttempts v-if="choices.length" :label="numberOfAttemptsLabel" :disabled="disableAfterChoiceIsSelected" :numberOfAttempts="numberOfAttempts" @decreaseNumberOfAttempts="decreaseNumberOfAttempts" @increaseNumberOfAttempts="increaseNumberOfAttempts" />
-      <Button @pickChoice="pickChoice" @choiceReset="choiceReset" :resetState="disableAfterChoiceIsSelected" :buttonIcon="buttonIcon" :disabled="!choices.length || !numberOfAttempts"
+      <NumberOfAttempts v-if="choices.length" :label="numberOfAttemptsLabel" :disabled="attemptsExhausted" :numberOfAttempts="numberOfAttempts" @decreaseNumberOfAttempts="decreaseNumberOfAttempts" @increaseNumberOfAttempts="increaseNumberOfAttempts" />
+      <Button @pickChoice="pickChoice" @choiceReset="choiceReset" :resetState="finalChoiceRevealed" :buttonIcon="buttonIcon" :disabled="!choices.length || !numberOfAttempts || (attemptsExhausted && !finalChoiceRevealed)"
         :buttonText="buttonLabel" />
       <p class="attempts-progress" v-if="choices.length && currentAttempt > 0">Attempt {{ currentAttempt }} of {{ numberOfAttempts }}</p>
       <Result v-if="easyChoice && choices.length" :resultLabel="resultLabel" :result="easyChoice" />

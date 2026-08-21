@@ -40,6 +40,8 @@
 
 <style scoped>
   .choice-button {
+    -webkit-appearance: none;
+    appearance: none;
     width: 100%;
     background: linear-gradient(135deg, #5b68e6 0%, #7c5dde 100%);
     border: none;
@@ -59,6 +61,11 @@
 
   .disabled {
     background-color: lightgray;
+  }
+
+  .choice-button span {
+    font-weight: normal;
+    font-family: -apple-system, "Apple Color Emoji", sans-serif;
   }
 
 </style>  
